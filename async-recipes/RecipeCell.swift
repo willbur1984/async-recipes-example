@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// Represents a single `Recipe` in a `UITableView`
 final class RecipeCell: UITableViewCell {
     // MARK: - Private Properties
     private let stackView = UIStackView().also {
@@ -53,6 +54,11 @@ final class RecipeCell: UITableViewCell {
     }
     
     // MARK: - Public Functions
+    /**
+     Sets the represented `Recipe` to `model`.
+     
+     - Parameter model: The represented model
+     */
     func setModel(_ model: Recipe) {
         self.nameLabel.text = model.name
         self.cuisineLabel.text = model.cuisine

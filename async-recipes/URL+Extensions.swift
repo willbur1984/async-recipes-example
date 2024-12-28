@@ -13,6 +13,9 @@ extension URL {
     static let recipesEmpty = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-empty.json")!
     static let recipesError = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-malformed.json")!
     
+    /**
+     Returns whether the file url is reachable.
+     */
     var isFileURLReachable: Bool {
         do {
             return try self.checkResourceIsReachable()
