@@ -19,6 +19,12 @@ struct Recipe: Comparable, Decodable, Hashable, Identifiable {
         case urlYouTube = "youtube_url"
     }
     
+    struct LinkURL {
+        // MARK: - Public Properties
+        let title: String
+        let url: URL
+    }
+    
     // MARK: - Public Properties
     let id: String
     let name: String
@@ -27,6 +33,17 @@ struct Recipe: Comparable, Decodable, Hashable, Identifiable {
     let urlPhotoLarge: URL?
     let urlSource: URL?
     let urlYouTube: URL?
+    
+    var linkURLs: [LinkURL] {
+        [LinkURL]().also {
+            if let url = self.urlSource {
+                $0.append(.init(title: "Source URL", url: url))
+            }
+            if let url = self.urlYouTube {
+                $0.append(.init(title: "YouTube URL", url: url))
+            }
+        }
+    }
     
     // MARK: - Comparable
     static func < (lhs: Recipe, rhs: Recipe) -> Bool {

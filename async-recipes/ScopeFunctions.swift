@@ -43,3 +43,4 @@ extension ScopeFunctions where Self: AnyObject {
 
 extension NSObject: ScopeFunctions {}
 extension String: ScopeFunctions {}
+extension Array: ScopeFunctions {}

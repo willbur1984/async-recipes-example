@@ -14,7 +14,7 @@ final class RecipeCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .horizontal
         $0.alignment = .center
-        $0.spacing = 8.0
+        $0.spacing = 16.0
     }
     private let verticalStackView = UIStackView().also {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -33,11 +33,17 @@ final class RecipeCell: UITableViewCell {
             $0.heightAnchor.constraint(equalTo: $0.widthAnchor)
         ])
     }
+    private let activityIndicator = UIActivityIndicatorView(style: .medium).also {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.hidesWhenStopped = true
+    }
     private let nameLabel = UILabel().also {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.adjustsFontForContentSizeCategory = true
     }
     private let cuisineLabel = UILabel().also {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.adjustsFontForContentSizeCategory = true
     }
     
     private var task: Task<Void, Error>? {
@@ -53,7 +59,9 @@ final class RecipeCell: UITableViewCell {
         
         if let url = model.urlPhotoSmall {
             self.task = Task { @MainActor in
+                self.activityIndicator.startAnimating()
                 self.photoImageView.image = await ImageManager.shared.image(forURL: url)
+                self.activityIndicator.stopAnimating()
             }
         }
     }
@@ -61,7 +69,12 @@ final class RecipeCell: UITableViewCell {
     // MARK: - Private Functions
     private func setup() {
         self.contentView.addSubview(self.stackView.also {
-            $0.addArrangedSubviews([self.photoImageView, self.verticalStackView.also {
+            $0.addArrangedSubviews([self.photoImageView.also {
+                $0.addSubview(self.activityIndicator)
+                
+                NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|", metrics: nil, views: ["view": self.activityIndicator]))
+                NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", metrics: nil, views: ["view": self.activityIndicator]))
+            }, self.verticalStackView.also {
                 $0.addArrangedSubviews([self.nameLabel, self.cuisineLabel])
             }])
         })

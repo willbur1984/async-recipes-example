@@ -9,6 +9,10 @@ import Foundation
 
 extension URL {
     // MARK: - Public Properties
+    static let recipesAll = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json")!
+    static let recipesEmpty = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-empty.json")!
+    static let recipesError = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-malformed.json")!
+    
     var isFileURLReachable: Bool {
         do {
             return try self.checkResourceIsReachable()
