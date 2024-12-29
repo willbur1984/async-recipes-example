@@ -68,7 +68,7 @@ final class RecipeCell: UITableViewCell {
         if let url = model.urlPhotoSmall {
             self.task = Task { @MainActor in
                 self.activityIndicator.startAnimating()
-                self.photoImageView.image = await ImageManager.shared.image(forURL: url)
+                self.photoImageView.image = await ImageManager.shared.image(forURL: url).image
                 self.activityIndicator.stopAnimating()
             }
         }

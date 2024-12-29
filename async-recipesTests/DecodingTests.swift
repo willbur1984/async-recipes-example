@@ -1,5 +1,5 @@
 //
-//  async_recipesTests.swift
+//  DecodingTests.swift
 //  async-recipesTests
 //
 //  Created by William Towe on 12/27/24.
@@ -8,11 +8,11 @@
 import XCTest
 @testable import async_recipes
 
-enum TestError: Error {
+enum DecodingTestError: Error {
     case dataWasNil
 }
 
-final class async_recipesTests: XCTestCase {
+final class DecodingTests: XCTestCase {
     func testRecipeDecodeSuccess() throws {
         let json = """
 {
@@ -23,7 +23,7 @@ final class async_recipesTests: XCTestCase {
 """
         
         guard let data = json.data(using: .utf8) else {
-            throw TestError.dataWasNil
+            throw DecodingTestError.dataWasNil
         }
         XCTAssertNoThrow(try JSONDecoder().decode(Recipe.self, from: data))
     }
@@ -37,7 +37,7 @@ final class async_recipesTests: XCTestCase {
 """
         
         guard let data = json.data(using: .utf8) else {
-            throw TestError.dataWasNil
+            throw DecodingTestError.dataWasNil
         }
         XCTAssertThrowsError(try JSONDecoder().decode(Recipe.self, from: data))
     }
@@ -61,7 +61,7 @@ final class async_recipesTests: XCTestCase {
 """
         
         guard let data = json.data(using: .utf8) else {
-            throw TestError.dataWasNil
+            throw DecodingTestError.dataWasNil
         }
         let response = try JSONDecoder().decode(RecipesResponse.self, from: data)
         
@@ -76,7 +76,7 @@ final class async_recipesTests: XCTestCase {
 """
         
         guard let data = json.data(using: .utf8) else {
-            throw TestError.dataWasNil
+            throw DecodingTestError.dataWasNil
         }
         let response = try JSONDecoder().decode(RecipesResponse.self, from: data)
         
@@ -101,7 +101,7 @@ final class async_recipesTests: XCTestCase {
 """
         
         guard let data = json.data(using: .utf8) else {
-            throw TestError.dataWasNil
+            throw DecodingTestError.dataWasNil
         }
         XCTAssertThrowsError(try JSONDecoder().decode(RecipesResponse.self, from: data))
     }
