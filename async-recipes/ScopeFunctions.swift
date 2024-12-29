@@ -8,7 +8,7 @@
 import Foundation
 
 /// I include this in every iOS project I create, one of the best features of Kotlin https://kotlinlang.org/docs/scope-functions.html
-/// Normally, I would include the library (of which I am the primary author) in its entirety, but did not per the requirements. Instead I cherry picked what I needed from https://github.com/Kosoku/Feige/blob/main/Feige/ScopeFunctions.swift
+/// Normally, I would include the entire library (of which I am the primary author), but did not per the requirements. Instead I cherry picked what I needed from https://github.com/Kosoku/Feige/blob/main/Feige/ScopeFunctions.swift
 protocol ScopeFunctions {}
 
 extension ScopeFunctions {

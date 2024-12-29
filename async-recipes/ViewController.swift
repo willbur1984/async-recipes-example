@@ -60,13 +60,13 @@ class ViewController: UITableViewController, UISearchResultsUpdating {
                 guard model.linkURLs.isEmpty.not() else {
                     return
                 }
-                self.present(UIAlertController(title: "URLs", message: "Choose a URL to open", preferredStyle: .actionSheet).also {
+                self.present(UIAlertController(title: String(localized: "alert.urls.title", defaultValue: "URLs"), message: String(localized: "alert.urls.message", defaultValue: "Choose a URL to open"), preferredStyle: .actionSheet).also {
                     for linkURL in model.linkURLs {
                         $0.addAction(.init(title: linkURL.title, style: .default, handler: { _ in
                             self.present(SFSafariViewController(url: linkURL.url), animated: true)
                         }))
                     }
-                    $0.addAction(.init(title: "Cancel", style: .cancel))
+                    $0.addAction(.init(title: String(localized: "button.cancel", defaultValue: "Cancel"), style: .cancel))
                 }, animated: true)
             }
         }
@@ -83,7 +83,7 @@ class ViewController: UITableViewController, UISearchResultsUpdating {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = UISearchController(searchResultsController: nil).also {
             $0.searchResultsUpdater = self
-            $0.searchBar.placeholder = "Search recipes"
+            $0.searchBar.placeholder = String(localized: "recipes.search.placeholder", defaultValue: "Search by name or cuisine")
             $0.searchBar.showsScopeBar = true
             $0.searchBar.scopeButtonTitles = self.viewModel.scopeButtonTitles.map {
                 $0.title
@@ -103,10 +103,10 @@ class ViewController: UITableViewController, UISearchResultsUpdating {
                     self.emptyView.setImage(nil, headline: nil, body: nil)
                     return
                 }
-                self.emptyView.setImage(UIImage(systemName: "fork.knife"), headline: "No Recipes", body: "Pull to refresh to fetch recipes")
+                self.emptyView.setImage(UIImage(systemName: "fork.knife"), headline: String(localized: "recipes.empty.headline", defaultValue: "No Recipes"), body: String(localized: "recipes.empty.body", defaultValue: "Pull to refresh to fetch recipes"))
             }
             catch {
-                self.emptyView.setImage(UIImage(systemName: "exclamationmark.circle.fill"), headline: "Error", body: error.localizedDescription)
+                self.emptyView.setImage(UIImage(systemName: "exclamationmark.circle.fill"), headline: String(localized: "recipes.empty.error.headline", defaultValue: "Error"), body: error.localizedDescription)
             }
         }
     }

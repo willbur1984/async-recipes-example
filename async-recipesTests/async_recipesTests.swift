@@ -8,29 +8,101 @@
 import XCTest
 @testable import async_recipes
 
+enum TestError: Error {
+    case dataWasNil
+}
+
 final class async_recipesTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testRecipeDecodeSuccess() throws {
+        let json = """
+{
+    "uuid": "92eb96e5-4f02-469f-8a19-01900a36f7ce",
+    "name": "Test",
+    "cuisine": "Test"
+}
+"""
+        
+        guard let data = json.data(using: .utf8) else {
+            throw TestError.dataWasNil
         }
+        XCTAssertNoThrow(try JSONDecoder().decode(Recipe.self, from: data))
     }
-
+    
+    func testRecipeDecodeFailure() throws {
+        let json = """
+{
+    "uuid": "92eb96e5-4f02-469f-8a19-01900a36f7ce",
+    "cuisine": "Test"
+}
+"""
+        
+        guard let data = json.data(using: .utf8) else {
+            throw TestError.dataWasNil
+        }
+        XCTAssertThrowsError(try JSONDecoder().decode(Recipe.self, from: data))
+    }
+    
+    func testRecipesResponseSuccess() throws {
+        let json = """
+{
+    "recipes": [
+        {
+            "uuid": "92eb96e5-4f02-469f-8a19-01900a36f7ce",
+            "name": "Test",
+            "cuisine": "Test"
+        },
+        {
+            "uuid": "79639352-7bf0-4997-9c1a-654e44dbf506",
+            "name": "Test",
+            "cuisine": "Test"
+        }
+    ]
+}
+"""
+        
+        guard let data = json.data(using: .utf8) else {
+            throw TestError.dataWasNil
+        }
+        let response = try JSONDecoder().decode(RecipesResponse.self, from: data)
+        
+        XCTAssertFalse(response.recipes.isEmpty)
+    }
+    
+    func testRecipesResponseEmpty() throws {
+        let json = """
+{
+    "recipes": []
+}
+"""
+        
+        guard let data = json.data(using: .utf8) else {
+            throw TestError.dataWasNil
+        }
+        let response = try JSONDecoder().decode(RecipesResponse.self, from: data)
+        
+        XCTAssertTrue(response.recipes.isEmpty)
+    }
+    
+    func testRecipesResponseFailure() throws {
+        let json = """
+{
+    "recipes": [
+        {
+            "uuid": "92eb96e5-4f02-469f-8a19-01900a36f7ce",
+            "name": "Test",
+            "cuisine": "Test"
+        },
+        {
+            "uuid": "79639352-7bf0-4997-9c1a-654e44dbf506",
+            "cuisine": "Test"
+        }
+    ]
+}
+"""
+        
+        guard let data = json.data(using: .utf8) else {
+            throw TestError.dataWasNil
+        }
+        XCTAssertThrowsError(try JSONDecoder().decode(RecipesResponse.self, from: data))
+    }
 }

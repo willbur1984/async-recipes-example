@@ -9,6 +9,9 @@ import Foundation
 
 extension Bool {
     // MARK: - Public Functions
+    /**
+     Returns the inverse of the receiver.
+     */
     func not() -> Bool {
         !self
     }

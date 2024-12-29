@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Represents a single recipe.
+ */
 struct Recipe: Comparable, Decodable, Hashable, Identifiable {
     // MARK: - Public Types
     enum CodingKeys: String, CodingKey {
@@ -34,13 +37,16 @@ struct Recipe: Comparable, Decodable, Hashable, Identifiable {
     let urlSource: URL?
     let urlYouTube: URL?
     
+    /**
+     Returns a list of `LinkURL` instances that can be navigated to using `SFSafariViewController`.
+     */
     var linkURLs: [LinkURL] {
         [LinkURL]().also {
             if let url = self.urlSource {
-                $0.append(.init(title: "Source URL", url: url))
+                $0.append(.init(title: String(localized: "link-urls.source.title", defaultValue: "Source URL"), url: url))
             }
             if let url = self.urlYouTube {
-                $0.append(.init(title: "YouTube URL", url: url))
+                $0.append(.init(title: String(localized: "link-urls.youtube.title", defaultValue: "YouTube URL"), url: url))
             }
         }
     }

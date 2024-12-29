@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/**
+ Displays info for various empty states in a `UITableView`.
+ */
 final class EmptyView: UIView {
     // MARK: - Private Properties
     private let stackView = UIStackView().also {
@@ -40,6 +43,13 @@ final class EmptyView: UIView {
     }
     
     // MARK: - Public Functions
+    /**
+     Displays the following `image`, `headline`, and `body`.
+     
+     - Parameter image: The image to display, hides the relevant subview if nil
+     - Parameter headline: The headline text to display, hides the relevant subview if nil
+     - Parameter body: The body to display, hides the relevant subview if nil
+     */
     func setImage(
         _ image: UIImage?,
         headline: String?,

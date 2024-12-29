@@ -8,7 +8,9 @@
 import Foundation
 import UIKit
 
-/// Represents a single `Recipe` in a `UITableView`
+/**
+ Displays info for a single `Recipe` in a `UITableView`
+ */
 final class RecipeCell: UITableViewCell {
     // MARK: - Private Properties
     private let stackView = UIStackView().also {

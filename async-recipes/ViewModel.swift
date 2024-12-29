@@ -11,34 +11,70 @@ import UIKit
 
 extension NSDiffableDataSourceSnapshot: ScopeFunctions {}
 
+/**
+ Manages the required state for `ViewController`.
+ */
 final class ViewModel {
     // MARK: - Public Types
+    /**
+     Represents a single scope button title in a `UISearchController`.
+     */
     struct ScopeButtonTitle: Hashable {
         // MARK: - Public Properties
+        /**
+         The localized title.
+         */
         let title: String
+        /**
+         The content url.
+         */
         let url: URL
     }
     
+    /**
+     Represents a single section in a vended `Snapshot`.
+     */
     enum Section: Hashable {
+        /**
+         The recipes section.
+         */
         case recipes
     }
     
+    /**
+     Represents a single item in a vended `Snapshot`.
+     */
     enum Item: Hashable, ScopeFunctions {
+        /**
+         A single recipe.
+         */
         case recipe(_ model: Recipe)
     }
     
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     // MARK: - Public Properties
+    /**
+     The list of scope button titles to display.
+     */
     let scopeButtonTitles: [ScopeButtonTitle] = [
-        .init(title: "All", url: .recipesAll),
-        .init(title: "Error", url: .recipesError),
-        .init(title: "Empty", url: .recipesEmpty)
+        .init(title: String(localized: "recipes.scope-button-titles.all", defaultValue: "All"), url: .recipesAll),
+        .init(title: String(localized: "recipes.scope-button-titles.error", defaultValue: "Error"), url: .recipesError),
+        .init(title: String(localized: "recipes.scope-button-titles.empty", defaultValue: "Empty"), url: .recipesEmpty)
     ]
     
+    /**
+     Set/get the search text used to filter the vended `snapshot`.
+     */
     @Published
     var searchText: String?
+    /**
+     Set/get the selected scope button title.
+     */
     var selectedScopeButtonTitle: ScopeButtonTitle
+    /**
+     Get the current snapshot.
+     */
     @Published
     private(set) var snapshot = Snapshot()
     
@@ -48,6 +84,9 @@ final class ViewModel {
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Public Functions
+    /**
+     Asynchronously requests and returns a recipes response based on `selectedScopeButtonTitle` or throws an error.
+     */
     func requestContent() async throws -> RecipesResponse {
         do {
             let (data, _) = try await URLSession.shared.data(from: self.selectedScopeButtonTitle.url)
@@ -76,7 +115,7 @@ final class ViewModel {
                         searchText?.takeUnless {
                             $0.isEmpty
                         }?.let {
-                            recipe.name.localizedCaseInsensitiveContains($0)
+                            recipe.name.localizedCaseInsensitiveContains($0) || recipe.cuisine.localizedStandardContains($0)
                         } ?? true
                     }.map {
                         .recipe($0)
