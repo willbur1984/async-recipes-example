@@ -2,15 +2,15 @@
 
 1. Clone the project
 
-    git clone https://github.com/willbur1984/async-recipes-example.git
+        git clone https://github.com/willbur1984/async-recipes-example.git
 
 1. `cd` into the cloned directory
 
-    cd async-recipes-example
+        cd async-recipes-example
 
 1. Open the *async-recipes.xcodeproj* file
 
-    open async-recipes.xcodeproj
+        open async-recipes.xcodeproj
 
 1. Run the app using *Product -> Run*
 
