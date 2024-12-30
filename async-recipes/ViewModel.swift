@@ -129,7 +129,7 @@ final class ViewModel {
                         }?.let {
                             recipe.name.localizedCaseInsensitiveContains($0) || recipe.cuisine.localizedStandardContains($0)
                         } ?? true
-                    }.map {
+                    }.sorted().map {
                         .recipe($0)
                     } ?? [], toSection: .recipes)
                 }
