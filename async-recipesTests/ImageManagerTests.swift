@@ -77,8 +77,6 @@ final class ImageManagerTests: XCTestCase {
             result = await manager.image(forURL: url, options: options)
             result = await manager.image(forURL: url, options: options)
             
-            os_log("%@", String(describing: result))
-            
             expectation.fulfill()
         }
         
