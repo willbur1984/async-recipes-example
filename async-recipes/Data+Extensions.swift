@@ -29,10 +29,10 @@ extension Data {
         
         _ = retval.withUnsafeMutableBytes { buffer in
             self.withUnsafeBytes {
-                if let messageBytesBaseAddress = $0.baseAddress, let digestBytesBlindMemory = buffer.bindMemory(to: UInt8.self).baseAddress {
+                if let baseAddress = $0.baseAddress, let start = buffer.bindMemory(to: UInt8.self).baseAddress {
                     let messageLength = CC_LONG(self.count)
                     
-                    CC_SHA1(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
+                    CC_SHA1(baseAddress, messageLength, start)
                 }
                 return 0
             }

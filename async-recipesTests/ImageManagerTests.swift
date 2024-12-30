@@ -22,30 +22,31 @@ import XCTest
 
 final class ImageManagerTests: XCTestCase {
     func testImageManagerSuccess() {
-        let manager = ImageManager()
-        
-        manager.setDiskCacheDirectoryName(UUID().uuidString)
-        manager.clearDiskCache()
-        
+        let manager = ImageManager().also {
+            $0.setDiskCacheDirectoryName(UUID().uuidString)
+            $0.clearDiskCache()
+        }
         let expectation = XCTestExpectation()
         var result = ImageManager.ImageResult.nilResult()
+        
         Task {
             result = await manager.image(forURL: URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg")!)
             expectation.fulfill()
         }
+        
         wait(for: [expectation])
         XCTAssertNotNil(result.image)
         XCTAssertTrue(result.options.isEmpty)
     }
     
     func testImageManagerSuccessOnDisk() {
-        let manager = ImageManager()
-        
-        manager.setDiskCacheDirectoryName(UUID().uuidString)
-        manager.clearDiskCache()
-        
+        let manager = ImageManager().also {
+            $0.setDiskCacheDirectoryName(UUID().uuidString)
+            $0.clearDiskCache()
+        }
         let expectation = XCTestExpectation()
         var result = ImageManager.ImageResult.nilResult()
+        
         Task {
             let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg")!
             let options = ImageManager.Options.cacheOnDisk
@@ -55,19 +56,20 @@ final class ImageManagerTests: XCTestCase {
             
             expectation.fulfill()
         }
+        
         wait(for: [expectation])
         XCTAssertNotNil(result.image)
         XCTAssertTrue(result.options.contains(.cacheOnDisk))
     }
     
     func testImageManagerSuccessInMemory() {
-        let manager = ImageManager()
-        
-        manager.setDiskCacheDirectoryName(UUID().uuidString)
-        manager.clearDiskCache()
-        
+        let manager = ImageManager().also {
+            $0.setDiskCacheDirectoryName(UUID().uuidString)
+            $0.clearDiskCache()
+        }
         let expectation = XCTestExpectation()
         var result = ImageManager.ImageResult.nilResult()
+        
         Task {
             let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg")!
             let options = ImageManager.Options.cacheInMemory
@@ -79,6 +81,7 @@ final class ImageManagerTests: XCTestCase {
             
             expectation.fulfill()
         }
+        
         wait(for: [expectation])
         XCTAssertNotNil(result.image)
         XCTAssertTrue(result.options.contains(.cacheInMemory))
@@ -86,14 +89,15 @@ final class ImageManagerTests: XCTestCase {
     
     func testImageManagerFailure() {
         let manager = ImageManager()
-        
         let expectation = XCTestExpectation()
         var result = ImageManager.ImageResult.nilResult()
+        
         Task {
             result = await manager.image(forURL: URL(string: "file://test.jpg")!)
             
             expectation.fulfill()
         }
+        
         wait(for: [expectation])
         XCTAssertNil(result.image)
     }

@@ -40,6 +40,7 @@ class ViewController: UITableViewController, UISearchResultsUpdating {
     private var cancellables = Set<AnyCancellable>()
     private let viewModel = ViewModel()
     
+    // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -89,6 +90,7 @@ class ViewController: UITableViewController, UISearchResultsUpdating {
         self.viewModel.selectedScopeButtonTitle = self.viewModel.scopeButtonTitles[searchController.searchBar.selectedScopeButtonIndex]
     }
     
+    // MARK: - Private Functions
     private func setup() {
         self.title = String(localized: "recipes.title", defaultValue: "Recipes")
         self.navigationItem.hidesSearchBarWhenScrolling = false

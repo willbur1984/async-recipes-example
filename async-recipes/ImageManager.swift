@@ -24,7 +24,7 @@ import UIKit
 /**
  Manages requesting images from remote urls and caching them on disk and memory (using `NSCache`)
  */
-final class ImageManager {
+final class ImageManager: ScopeFunctions {
     // MARK: - Public Types
     /**
      Represents caching options.
@@ -118,7 +118,9 @@ final class ImageManager {
      
      - Parameter value: The disk cache directory name, defaults to `ImageManager.defaultDirectoryName`
      */
-    func setDiskCacheDirectoryName(_ value: String = ImageManager.defaultDirectoryName) {
+    func setDiskCacheDirectoryName(
+        _ value: String = ImageManager.defaultDirectoryName
+    ) {
         guard value.isEmpty.not() else {
             os_log("Cannot set disk cache directory name to an empty string", type: .error)
             return

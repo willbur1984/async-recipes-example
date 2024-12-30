@@ -19,15 +19,17 @@
 import Foundation
 
 /// I include this in every iOS project I create, one of the best features of Kotlin https://kotlinlang.org/docs/scope-functions.html
-/// Normally, I would include the entire library (of which I am the primary author), but did not per the requirements. Instead I cherry picked what I needed from https://github.com/Kosoku/Feige/blob/main/Feige/ScopeFunctions.swift
+/// Normally, I would include the entire library (of which I am the author), but did not per the requirements. Instead I cherry picked what I needed from https://github.com/Kosoku/Feige/blob/main/Feige/ScopeFunctions.swift
 protocol ScopeFunctions {}
 
 extension ScopeFunctions {
     // MARK: - Public Functions
+    // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/let.html
     func `let`<T>(_ block: (Self) throws -> T) rethrows -> T {
         try block(self)
     }
     
+    // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/take-unless.html
     func takeUnless(_ predicate: (Self) throws -> Bool) rethrows -> Self? {
         try predicate(self) ? nil : self
     }
@@ -35,6 +37,7 @@ extension ScopeFunctions {
 
 extension ScopeFunctions where Self: Any {
     // MARK: - Public Functions
+    // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/also.html
     func also(_ block: (inout Self) throws -> Void) rethrows -> Self {
         var retval = self
         
@@ -46,6 +49,7 @@ extension ScopeFunctions where Self: Any {
 
 extension ScopeFunctions where Self: AnyObject {
     // MARK: - Public Functions
+    // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/also.html
     func also(_ block: (Self) throws -> Void) rethrows -> Self {
         try block(self)
         

@@ -122,6 +122,7 @@ final class ViewModel {
             .map { response, searchText in
                 Snapshot().also {
                     $0.appendSections([.recipes])
+                    // filter based on searchText, match against name or cuisine
                     $0.appendItems(response?.recipes.filter { recipe in
                         searchText?.takeUnless {
                             $0.isEmpty
